@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63aa2bb68da4e798bc01691e921f203, type: 3}
+  m_Name: BaseAppUnit
+  m_EditorClassIdentifier: 
+  _screensPreferences:
+    _baseCanvasPrefab: {fileID: 1955446385878446484, guid: 5aba922b8f6e545da992c19c058cc2c0, type: 3}
+    _menuScreenPrefab: {fileID: 4860843843600902115, guid: c3ec0ac6b3a6c40868682e9659fa3290, type: 3}
+    _settingsScreenPrefab: {fileID: 3243832106859566358, guid: 4d0cf343864314411aed37357a831fc1, type: 3}
+    _achievementsScreenPrefab: {fileID: 2357598327244514674, guid: 2b5650d6132854329bb9f98e1d136d9f, type: 3}
+    _scoreboardScreenPrefab: {fileID: 8415850446647659271, guid: a8178a536fb4f42acb68659626e4bfe4, type: 3}
+    _loginScreenPrefab: {fileID: 4245053202514123867, guid: be783d64f5b0b4439a94d84746d9884a, type: 3}
+    _enterNameScreenPrefab: {fileID: 1115758531395469037, guid: 126ef3832f9ac49618bfd3d748a81f87, type: 3}
+    _preMatchScreenPrefab: {fileID: 6945075624255793255, guid: 51ca5283c07774db7a09bade4a5d005d, type: 3}

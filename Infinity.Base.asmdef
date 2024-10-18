@@ -1,0 +1,23 @@
+{
+    "name": "Infinity.Base",
+    "rootNamespace": "",
+    "references": [
+        "GUID:21b0c8d1703a94250bfac916590cea4f",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:ea09d578b10b742cc97d853a8246a6ce",
+        "GUID:ee9428a9f8ac4af78fb0ecaa2e327545",
+        "GUID:e4aa282f92fb436aa82ee40049657670",
+        "GUID:a91702fe79a8463f807d93385bd77bac",
+        "GUID:ba298990af354e18844d5fab60e662fb",
+        "GUID:8138d9ef7a9ab4629a5da21f71fd3650"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
