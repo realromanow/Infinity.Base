@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Infinity.Base.Api {
 	public interface IGameProvider {
-		Task StartProvideApplication ();
+		UniTask StartProvideApplication ();
 	}
 }

@@ -1,21 +1,24 @@
-using Infinity.Extensions;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BaseAppEnterNameViewModel : IDisposable {
-		public event Action onNameSubmitted;
-		public string defaultName { get; }
+		public ReactiveCommand nameSubmitCommand { get; } = new();
+		public IReadOnlyReactiveProperty<string> playerName => _playerName;
+		
+		private readonly ReactiveProperty<string> _playerName;
 
 		public BaseAppEnterNameViewModel (string defaultName) {
-			this.defaultName = defaultName;
+			_playerName = new ReactiveProperty<string>(defaultName);
 		}
 
 		public void SubmitName () {
-			onNameSubmitted?.Invoke();
+			nameSubmitCommand.Execute();
 		}
 
 		public void Dispose() {
-			onNameSubmitted?.RemoveAllListeners();
+			_playerName.Dispose();
+			nameSubmitCommand.Dispose();
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Infinity.Base.UI.ViewModels;
 using Infinity.Extensions;
 using Plugins.Infinity.DI.Binding;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 namespace Infinity.Base.UI.Views {
@@ -12,7 +13,9 @@ namespace Infinity.Base.UI.Views {
 		protected override void RegisterInitialize () {
 			base.RegisterInitialize();
 
-			_nameLabel.text = item.defaultName.Truncate(9, "...");
+			item.playerName
+				.Subscribe(value => _nameLabel.text = value.Truncate(6))
+				.AddTo(bindingDisposable);
 		}
 
 		public void SubmitName () {

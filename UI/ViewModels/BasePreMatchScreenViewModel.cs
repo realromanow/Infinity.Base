@@ -1,28 +1,28 @@
-using Infinity.Extensions;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BasePreMatchScreenViewModel : IDisposable {
-		public event Action onMultiPlayerSelected;
-		public event Action onSinglePlayerSelected;
-		public event Action onBackSelected;
+		public ReactiveCommand multiPlayerCommand { get; } = new();
+		public ReactiveCommand singlePlayerCommand { get; } = new();
+		public ReactiveCommand goBackCommand { get; } = new();
 
 		public void SelectMultiPlayer () {
-			onMultiPlayerSelected?.Invoke();
+			multiPlayerCommand.Execute();
 		}
 
 		public void SelectSinglePlayer () {
-			onSinglePlayerSelected?.Invoke();
+			singlePlayerCommand.Execute();
 		}
 
 		public void SelectBack () {
-			onBackSelected?.Invoke();
+			goBackCommand.Execute();
 		}
 
 		public void Dispose() {
-			onMultiPlayerSelected?.RemoveAllListeners();
-			onSinglePlayerSelected?.RemoveAllListeners();
-			onBackSelected?.RemoveAllListeners();
+			multiPlayerCommand.Dispose();
+			singlePlayerCommand.Dispose();
+			goBackCommand.Dispose();
 		}
 	}
 }

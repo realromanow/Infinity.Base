@@ -1,6 +1,7 @@
 using Infinity.Base.UI.ViewModels;
 using Infinity.Player.Models;
 using Plugins.Infinity.DI.Binding;
+using UniRx;
 using UnityEngine;
 
 namespace Infinity.Base.UI.Views {
@@ -17,7 +18,9 @@ namespace Infinity.Base.UI.Views {
 		protected override void RegisterInitialize () {
 			base.RegisterInitialize();
 
-			item.onAchievesLoaded += ItemOnAchievesLoaded;
+			item.achievesLoadedCommand
+				.Subscribe(ItemOnAchievesLoaded)
+				.AddTo(bindingDisposable);
 		}
 
 		private void ItemOnAchievesLoaded (AchievementModel[] achieves) {

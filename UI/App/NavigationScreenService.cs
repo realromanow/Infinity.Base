@@ -3,16 +3,16 @@ using Infinity.Base.UI.Api;
 using Infinity.Base.UI.ViewModels;
 using Infinity.Player.Api;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using UniRx;
 
 namespace Infinity.Base.UI.App {
 	public class NavigationScreenService : INavigationScreenService, IDisposable {
 		private readonly IBaseAppScreenService _appScreenService;
 		private readonly IPlayerProvider _playerProvider;
 		private readonly IInfinitySoundService _soundService;
-		private readonly List<IDisposable> _disposables = new();
+		private readonly CompositeDisposable _compositeDisposable = new();
 
 		public NavigationScreenService (
 			IBaseAppScreenService appScreenService,
@@ -26,11 +26,16 @@ namespace Infinity.Base.UI.App {
 		public void ShowSettingsScreen () {
 			_appScreenService.RestoreMenuScreen();
 
-			var settingsVm = new BaseAppSettingsScreenViewModel();
-			_disposables.Add(settingsVm);
+			var settingsVm = new BaseAppSettingsScreenViewModel()
+				.AddTo(_compositeDisposable);
 
-			settingsVm.onEnableSound += _soundService.UnPauseBgSource;
-			settingsVm.onDisableSound += _soundService.PauseBgSource;
+			settingsVm.enableSoundCommand
+				.Subscribe(_ => { _soundService.UnPauseBgSource(); })
+				.AddTo(_compositeDisposable);
+			
+			settingsVm.disableSoundCommand
+				.Subscribe(_ => { _soundService.PauseBgSource(); })
+				.AddTo(_compositeDisposable);
 			
 			_appScreenService.ShowSettingsScreen(settingsVm);
 		}
@@ -64,9 +69,7 @@ namespace Infinity.Base.UI.App {
 		}
 
 		public void Dispose() {
-			foreach (var disposable in _disposables) {
-				disposable.Dispose();
-			}
+			_compositeDisposable.Dispose();
 		}
 	}
 }

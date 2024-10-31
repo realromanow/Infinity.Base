@@ -1,17 +1,17 @@
-using Infinity.Extensions;
 using Infinity.Player.Models;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BaseAppAchievesScreenViewModel : IDisposable {
-		public event Action<AchievementModel[]> onAchievesLoaded;
+		public ReactiveCommand<AchievementModel[]> achievesLoadedCommand { get; } = new();
 
 		public void FillAchieves (AchievementModel[] achieves) {
-			onAchievesLoaded?.Invoke(achieves);
+			achievesLoadedCommand.Execute(achieves);
 		}
 		
 		public void Dispose() {
-			onAchievesLoaded?.RemoveAllListeners();
+			achievesLoadedCommand.Dispose();
 		}
 	}
 }

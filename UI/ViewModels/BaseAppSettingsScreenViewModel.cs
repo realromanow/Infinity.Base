@@ -1,22 +1,22 @@
-using Infinity.Extensions;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BaseAppSettingsScreenViewModel : IDisposable {
-		public event Action onDisableSound;
-		public event Action onEnableSound;
+		public ReactiveCommand disableSoundCommand { get; } = new();
+		public ReactiveCommand enableSoundCommand { get; } = new();
 
 		public void EnableSound () {
-			onEnableSound?.Invoke();
+			enableSoundCommand.Execute();
 		}
 
 		public void DisableSound () {
-			onDisableSound?.Invoke();
+			disableSoundCommand.Execute();
 		}
-		
-		public void Dispose() {
-			onDisableSound?.RemoveAllListeners();
-			onEnableSound?.RemoveAllListeners();
+
+		public void Dispose () {
+			disableSoundCommand?.Dispose();
+			enableSoundCommand?.Dispose();
 		}
 	}
 }

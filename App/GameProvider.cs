@@ -1,21 +1,19 @@
+using Cysharp.Threading.Tasks;
 using Infinity.Base.Api;
 using Infinity.Base.UI.Api;
 using Infinity.Base.UI.ViewModels;
 using Infinity.Player.Api;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-using UnityEngine;
+using UniRx;
 using UnityEngine.SceneManagement;
 
 namespace Infinity.Base.App {
 	public class GameProvider : IGameProvider, IDisposable {
 		private readonly IBaseAppScreenService _appScreenService;
 		private readonly IPlayerProvider _playerProvider;
-		private readonly IList<IDisposable> _disposables = new List<IDisposable>();
+		private readonly CompositeDisposable _compositeDisposable = new();
+		private readonly CancellationTokenSource _cancellationTokenSource = new();
 
 		public GameProvider (
 			IBaseAppScreenService appScreenService,
@@ -24,28 +22,32 @@ namespace Infinity.Base.App {
 			_playerProvider = playerProvider;
 		}
 
-		public async Task StartProvideApplication () {
-			var loadingViewModel = new BaseAppLoadingScreenViewModel();
+		public async UniTask StartProvideApplication () {
+			var loadingViewModel = new BaseAppLoadingScreenViewModel().AddTo(_compositeDisposable);
 			_appScreenService.ShowLoadingScreen(loadingViewModel);
 
 			var progress = new Progress<float>(x => { loadingViewModel.UpdateProgress(x); });
-
-			var player = await _playerProvider.GetPlayer(CancellationToken.None, progress);
+			
+			var player = await _playerProvider.GetPlayer(_cancellationTokenSource.Token, progress);
 			_appScreenService.HideLoadingScreen();
 
-			var menuViewModel = new BaseAppMenuScreenViewModel();
-
-			_disposables.Add(menuViewModel);
-			menuViewModel.onStartGamePressed += () => MenuViewModelOnStartGamePressed(player.displayName);
+			var menuViewModel = new BaseAppMenuScreenViewModel()
+				.AddTo(_compositeDisposable);
+			
+			menuViewModel.startCommand
+				.Subscribe(_ => MenuViewModelOnStartGamePressed(player.displayName))
+				.AddTo(_compositeDisposable);
 			
 			_appScreenService.ShowMenuScreen(menuViewModel);
 		}
 
 		private void MenuViewModelOnStartGamePressed (string playerName) {
-			var enterNameViewModel = new BaseAppEnterNameViewModel(playerName);
+			var enterNameViewModel = new BaseAppEnterNameViewModel(playerName)
+				.AddTo(_compositeDisposable);
 			
-			_disposables.Add(enterNameViewModel);
-			enterNameViewModel.onNameSubmitted += EnterNameViewModelOnNameSubmitted;
+			enterNameViewModel.nameSubmitCommand
+				.Subscribe(_ => EnterNameViewModelOnNameSubmitted())
+				.AddTo(_compositeDisposable);
 
 			_appScreenService.ShowEnterNameScreen(enterNameViewModel);
 		}
@@ -53,40 +55,44 @@ namespace Infinity.Base.App {
 		private void EnterNameViewModelOnNameSubmitted () {
 			_appScreenService.HideEnterNameScreen();
 			
-			var preMatchScreenViewModel = new BasePreMatchScreenViewModel();
-			_disposables.Add(preMatchScreenViewModel);
+			var preMatchScreenViewModel = new BasePreMatchScreenViewModel()
+				.AddTo(_compositeDisposable);
 
-			preMatchScreenViewModel.onMultiPlayerSelected += LaunchGameplay;
-			preMatchScreenViewModel.onSinglePlayerSelected += LaunchGameplay;
-			preMatchScreenViewModel.onBackSelected += _appScreenService.HidePreMatchScreen;
+			preMatchScreenViewModel.goBackCommand
+				.Subscribe(_ => _appScreenService.HidePreMatchScreen())
+				.AddTo(_compositeDisposable);
+			
+			preMatchScreenViewModel.multiPlayerCommand
+				.Subscribe(_ => LaunchGameplay(_cancellationTokenSource.Token).Forget())
+				.AddTo(_compositeDisposable);
+			
+			preMatchScreenViewModel.singlePlayerCommand
+				.Subscribe(_ => LaunchGameplay(_cancellationTokenSource.Token).Forget())
+				.AddTo(_compositeDisposable);
 			
 			_appScreenService.ShowPreMatchScreen(preMatchScreenViewModel);
 		}
 
-		private void LaunchGameplay () {
+		private async UniTask LaunchGameplay (CancellationToken cancellationToken) {
 			_appScreenService.HidePreMatchScreen();
 			_appScreenService.HideMenuScreen();
 			
-			CoroutineRunner.instance.StartCoroutine(LaunchEnumerator());
-		}
-
-		private IEnumerator LaunchEnumerator () {
-			var loadingVm = new BaseAppLoadingScreenViewModel();
-			_disposables.Add(loadingVm);
+			var loadingVm = new BaseAppLoadingScreenViewModel().AddTo(_compositeDisposable);
 			_appScreenService.ShowLoadingScreen(loadingVm);
 			
 			IProgress<float> progress = new Progress<float>(x => { loadingVm.UpdateProgress(x); });
 			progress.Report(0.3f);
 
-			yield return new WaitForSeconds(2f);
+			await UniTask.Delay(1000, cancellationToken: cancellationToken);
 
 			SceneManager.LoadScene("GameplayScene");
 		}
 
 		public void Dispose() {
-			foreach (var disposable in _disposables) {
-				disposable.Dispose();
-			}
+			_cancellationTokenSource.Cancel();
+			
+			_compositeDisposable.Dispose();
+			_cancellationTokenSource.Dispose();
 		}
 	}
 }

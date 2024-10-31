@@ -1,16 +1,18 @@
-using Infinity.Extensions;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BaseAppLoadingScreenViewModel : IDisposable {
-		public event Action<float> onProgressStatusUpdate;
+		public IReadOnlyReactiveProperty<float> loadingProgress => _loadingProgress;
+		
+		private readonly ReactiveProperty<float> _loadingProgress = new(0f);
 
 		public void UpdateProgress (float progress) {
-			onProgressStatusUpdate?.Invoke(progress);
+			_loadingProgress.Value = progress;
 		}
 
 		public void Dispose() {
-			onProgressStatusUpdate?.RemoveAllListeners();
+			_loadingProgress.Dispose();
 		}
 	}
 }

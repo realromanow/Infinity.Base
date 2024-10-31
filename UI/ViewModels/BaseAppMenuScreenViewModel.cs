@@ -1,16 +1,16 @@
-using Infinity.Extensions;
 using System;
+using UniRx;
 
 namespace Infinity.Base.UI.ViewModels {
 	public class BaseAppMenuScreenViewModel : IDisposable {
-		public event Action onStartGamePressed; 
-		
+		public ReactiveCommand startCommand { get; } = new();
+
 		public void StartGame () {
-			onStartGamePressed?.Invoke();
+			startCommand.Execute();
 		}
 
 		public void Dispose() {
-			onStartGamePressed?.RemoveAllListeners();
+			startCommand.Dispose();
 		}
 	}
 }

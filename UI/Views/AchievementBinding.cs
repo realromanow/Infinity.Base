@@ -15,7 +15,7 @@ namespace Infinity.Base.UI.Views {
 		protected override void RegisterInitialize () {
 			base.RegisterInitialize();
 			
-			var localization = I2.Loc.LocalizationManager.GetTermTranslation(item.id);
+			var localization = item.id;
 			_achievementName.text = localization;
 			_progressBar.fillAmount = item.progress;
 		}

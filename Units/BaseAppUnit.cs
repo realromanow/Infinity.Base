@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Infinity.Base.App;
 using Infinity.Base.UI.App;
 using Plugins.Infinity.DI.App;
@@ -15,10 +16,11 @@ namespace Infinity.Base.Units {
 
 			componentsRegistry.Instantiate<BaseAppScreenService>(_screensPreferences);
 			componentsRegistry.Instantiate<NavigationScreenService>();
-			
-			_ = componentsRegistry
+
+			componentsRegistry
 				.Instantiate<GameProvider>()
-				.StartProvideApplication();
+				.StartProvideApplication()
+				.Forget();
 		}
 	}
 }
