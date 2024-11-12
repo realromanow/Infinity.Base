@@ -1,11 +1,11 @@
-using Infinity.Base.UI.ViewModels;
-using Infinity.Extensions;
+using Plugins.Infinity.Base.UI.ViewModels;
 using Plugins.Infinity.DI.Binding;
+using Plugins.Infinity.Extensions;
 using TMPro;
 using UniRx;
 using UnityEngine;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class BaseAppEnterNameViewModelItemBinding : ItemBinding<BaseAppEnterNameViewModel> {
 		[SerializeField]
 		private TextMeshProUGUI _nameLabel;
@@ -20,6 +20,10 @@ namespace Infinity.Base.UI.Views {
 
 		public void SubmitName () {
 			item.SubmitName();
+		}
+
+		public void PressSupport () {
+			Application.OpenURL("https://chubbychampionsfluffparty.com/support.html");
 		}
 	}
 }

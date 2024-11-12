@@ -1,18 +1,18 @@
-using Infinity.Base.UI.ViewModels;
+using Plugins.Infinity.Base.UI.ViewModels;
 using Plugins.Infinity.DI.Binding;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class BasePreMatchScreenViewModelBinding : ItemBinding<BasePreMatchScreenViewModel> {
-		public void SelectMultiPlayer () {
-			item.SelectMultiPlayer();
+		public void SelectLocale () {
+			item.SelectLocalOpponent();
 		}
 
-		public void SelectSinglePlayer () {
-			item.SelectSinglePlayer();
+		public void SelectBot () {
+			item.SelectLocalBot();
 		}
 
-		public void SelectBack () {
-			item.SelectBack();
+		public void SelectOnline () {
+			item.SelectOnlineOpponent();
 		}
 	}
 }

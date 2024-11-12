@@ -1,10 +1,10 @@
-using Infinity.Base.UI.Api;
-using Infinity.Base.UI.ViewModels;
+using Plugins.Infinity.Base.UI.Api;
+using Plugins.Infinity.Base.UI.ViewModels;
 using Plugins.Infinity.UI.Api;
 using System;
 using UnityEngine;
 
-namespace Infinity.Base.UI.App {
+namespace Plugins.Infinity.Base.UI.App {
 	public class BaseAppScreenService : IBaseAppScreenService {
 		private readonly IInfinityUIService _infinityUIService;
 		private readonly Preferences _preferences;

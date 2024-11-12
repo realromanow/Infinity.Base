@@ -1,6 +1,6 @@
-using Infinity.Base.UI.ViewModels;
+using Plugins.Infinity.Base.UI.ViewModels;
 
-namespace Infinity.Base.UI.Api {
+namespace Plugins.Infinity.Base.UI.Api {
 	public interface IBaseAppScreenService {
 		void RestoreMenuScreen ();
 		

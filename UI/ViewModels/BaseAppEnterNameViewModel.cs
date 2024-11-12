@@ -1,9 +1,9 @@
 using System;
 using UniRx;
 
-namespace Infinity.Base.UI.ViewModels {
+namespace Plugins.Infinity.Base.UI.ViewModels {
 	public class BaseAppEnterNameViewModel : IDisposable {
-		public ReactiveCommand nameSubmitCommand { get; } = new();
+		public ReactiveCommand<string> nameSubmitCommand { get; } = new();
 		public IReadOnlyReactiveProperty<string> playerName => _playerName;
 		
 		private readonly ReactiveProperty<string> _playerName;
@@ -13,7 +13,7 @@ namespace Infinity.Base.UI.ViewModels {
 		}
 
 		public void SubmitName () {
-			nameSubmitCommand.Execute();
+			nameSubmitCommand.Execute(_playerName.Value);
 		}
 
 		public void Dispose() {

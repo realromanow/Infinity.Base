@@ -1,9 +1,9 @@
-using Infinity.Player.Models;
 using Plugins.Infinity.DI.Binding;
+using Plugins.Infinity.Player.Models;
 using TMPro;
 using UnityEngine;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class LeaderboardPlayerModelBinding : ItemBinding<LeaderboardPlayerModel> {
 		[SerializeField]
 		private TextMeshProUGUI _rankLabel;

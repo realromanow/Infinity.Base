@@ -1,9 +1,9 @@
-using Infinity.Base.UI.ViewModels;
-using Infinity.Player.Models;
+using Plugins.Infinity.Base.UI.ViewModels;
 using Plugins.Infinity.DI.Binding;
+using Plugins.Infinity.Player.Models;
 using UnityEngine;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class BaseAppScoreScreenViewModelBinding : ItemBinding<BaseAppScoreScreenViewModel> {
 		[SerializeField]
 		private GameObject _leaderboardPlayerPrefab;

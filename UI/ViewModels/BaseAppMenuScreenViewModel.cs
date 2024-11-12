@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace Infinity.Base.UI.ViewModels {
+namespace Plugins.Infinity.Base.UI.ViewModels {
 	public class BaseAppMenuScreenViewModel : IDisposable {
 		public ReactiveCommand startCommand { get; } = new();
 

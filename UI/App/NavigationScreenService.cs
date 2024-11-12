@@ -1,40 +1,45 @@
-using Infinity.Audio.Api;
-using Infinity.Base.UI.Api;
-using Infinity.Base.UI.ViewModels;
-using Infinity.Player.Api;
+using Plugins.Infinity.Base.Api;
+using Plugins.Infinity.Base.UI.Api;
+using Plugins.Infinity.Base.UI.ViewModels;
+using Plugins.Infinity.Player.Api;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 
-namespace Infinity.Base.UI.App {
+namespace Plugins.Infinity.Base.UI.App {
 	public class NavigationScreenService : INavigationScreenService, IDisposable {
 		private readonly IBaseAppScreenService _appScreenService;
 		private readonly IPlayerProvider _playerProvider;
-		private readonly IInfinitySoundService _soundService;
+		private readonly IMenuAudioProvider _menuAudioProvider;
 		private readonly CompositeDisposable _compositeDisposable = new();
 
 		public NavigationScreenService (
 			IBaseAppScreenService appScreenService,
-			IPlayerProvider playerProvider, 
-			IInfinitySoundService soundService) {
+			IPlayerProvider playerProvider,
+			IMenuAudioProvider menuAudioProvider) {
 			_appScreenService = appScreenService;
 			_playerProvider = playerProvider;
-			_soundService = soundService;
+			_menuAudioProvider = menuAudioProvider;
 		}
 
 		public void ShowSettingsScreen () {
 			_appScreenService.RestoreMenuScreen();
 
-			var settingsVm = new BaseAppSettingsScreenViewModel()
+			var settingsVm = new BaseAppSettingsScreenViewModel(_menuAudioProvider.audioIsPlay)
 				.AddTo(_compositeDisposable);
 
 			settingsVm.enableSoundCommand
-				.Subscribe(_ => { _soundService.UnPauseBgSource(); })
+				.Subscribe(_ => {
+					_menuAudioProvider.PlayMenuSound();
+				})
 				.AddTo(_compositeDisposable);
 			
 			settingsVm.disableSoundCommand
-				.Subscribe(_ => { _soundService.PauseBgSource(); })
+				.Subscribe(_ => {
+					_menuAudioProvider.PauseMenuSound();
+				})
 				.AddTo(_compositeDisposable);
 			
 			_appScreenService.ShowSettingsScreen(settingsVm);
@@ -61,6 +66,18 @@ namespace Infinity.Base.UI.App {
 			_appScreenService.ShowScoreScreen(viewModel);
 			
 			_ = AsyncFillScoreScreen(viewModel);
+		}
+
+		public void ShowEnterNameScreen () {
+			var viewModel = new BaseAppEnterNameViewModel(PlayerPrefs.GetString("player_name")).AddTo(_compositeDisposable);
+			viewModel.nameSubmitCommand
+				.Subscribe(_ => {
+					PlayerPrefs.SetString("player_name", viewModel.playerName.Value);
+					_appScreenService.HideEnterNameScreen();
+				})
+				.AddTo(_compositeDisposable);
+			
+			_appScreenService.ShowEnterNameScreen(viewModel);
 		}
 
 		private async Task AsyncFillScoreScreen (BaseAppScoreScreenViewModel viewModel) {

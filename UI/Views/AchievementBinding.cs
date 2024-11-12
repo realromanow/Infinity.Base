@@ -1,10 +1,10 @@
-using Infinity.Player.Models;
 using Plugins.Infinity.DI.Binding;
+using Plugins.Infinity.Player.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class AchievementBinding : ItemBinding<AchievementModel> {
 		[SerializeField]
 		private TextMeshProUGUI _achievementName;

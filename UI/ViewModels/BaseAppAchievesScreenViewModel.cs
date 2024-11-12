@@ -1,8 +1,8 @@
-using Infinity.Player.Models;
+using Plugins.Infinity.Player.Models;
 using System;
 using UniRx;
 
-namespace Infinity.Base.UI.ViewModels {
+namespace Plugins.Infinity.Base.UI.ViewModels {
 	public class BaseAppAchievesScreenViewModel : IDisposable {
 		public ReactiveCommand<AchievementModel[]> achievesLoadedCommand { get; } = new();
 

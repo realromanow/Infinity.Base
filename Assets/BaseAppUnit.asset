@@ -21,3 +21,4 @@ MonoBehaviour:
     _loginScreenPrefab: {fileID: 4245053202514123867, guid: be783d64f5b0b4439a94d84746d9884a, type: 3}
     _enterNameScreenPrefab: {fileID: 1115758531395469037, guid: 126ef3832f9ac49618bfd3d748a81f87, type: 3}
     _preMatchScreenPrefab: {fileID: 6945075624255793255, guid: 51ca5283c07774db7a09bade4a5d005d, type: 3}
+  _menuAudioProviderPrefab: {fileID: 6379550497090318011, guid: bf85853892706439caa1694b51319503, type: 3}

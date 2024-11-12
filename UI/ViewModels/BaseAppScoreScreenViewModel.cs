@@ -1,8 +1,8 @@
-using Infinity.Extensions;
-using Infinity.Player.Models;
+using Plugins.Infinity.Extensions;
+using Plugins.Infinity.Player.Models;
 using System;
 
-namespace Infinity.Base.UI.ViewModels {
+namespace Plugins.Infinity.Base.UI.ViewModels {
 	public class BaseAppScoreScreenViewModel : IDisposable {
 		public event Action<LeaderboardPlayerModel[]> onPlayersLoaded;
 

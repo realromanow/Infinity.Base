@@ -1,11 +1,11 @@
-using Infinity.Base.UI.ViewModels;
+using Plugins.Infinity.Base.UI.ViewModels;
 using Plugins.Infinity.DI.Binding;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Infinity.Base.UI.Views {
+namespace Plugins.Infinity.Base.UI.Views {
 	public class BaseAppLoadingScreenViewModelBinding : ItemBinding<BaseAppLoadingScreenViewModel> {
 		[SerializeField]
 		private Image _progressBar;

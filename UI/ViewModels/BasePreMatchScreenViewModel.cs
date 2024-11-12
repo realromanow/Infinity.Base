@@ -1,28 +1,28 @@
 using System;
 using UniRx;
 
-namespace Infinity.Base.UI.ViewModels {
+namespace Plugins.Infinity.Base.UI.ViewModels {
 	public class BasePreMatchScreenViewModel : IDisposable {
-		public ReactiveCommand multiPlayerCommand { get; } = new();
-		public ReactiveCommand singlePlayerCommand { get; } = new();
-		public ReactiveCommand goBackCommand { get; } = new();
+		public ReactiveCommand localOpponentCommand { get; } = new();
+		public ReactiveCommand localBotCommand { get; } = new();
+		public ReactiveCommand onlineOpponentCommand { get; } = new();
 
-		public void SelectMultiPlayer () {
-			multiPlayerCommand.Execute();
+		public void SelectLocalOpponent () {
+			localOpponentCommand.Execute();
 		}
 
-		public void SelectSinglePlayer () {
-			singlePlayerCommand.Execute();
+		public void SelectLocalBot () {
+			localBotCommand.Execute();
 		}
 
-		public void SelectBack () {
-			goBackCommand.Execute();
+		public void SelectOnlineOpponent () {
+			onlineOpponentCommand.Execute();
 		}
 
 		public void Dispose() {
-			multiPlayerCommand.Dispose();
-			singlePlayerCommand.Dispose();
-			goBackCommand.Dispose();
+			localOpponentCommand.Dispose();
+			localBotCommand.Dispose();
+			onlineOpponentCommand.Dispose();
 		}
 	}
 }
